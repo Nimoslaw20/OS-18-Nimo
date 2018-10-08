@@ -5,18 +5,35 @@
 #include <unistd.h>
 
 char **tokenize(char string[]);
+int notBatch();
+int Batch();
+int mycd(char **myPar);
 
-int main(){
+int main(int argc, char **argv){
+    if(argv[1]!=NULL){
+    }
+    else{
+        notBatch();
+    }
+}
+
+int notBatch(){
     char command[100];
     char **args;
     char holder[5] = {'e','x','i','t','\0'};
         do{
-            printf("prompt.>>");
+            printf("wish> ");
             fgets(command,100,stdin);
-            puts(command);
-            puts(strtok(command, " "));
+            //puts(command);
+            //puts(strtok(command, " "));
             args = tokenize(command);
-    }while(strcmp(command,holder) != 0);
+            mycd(args);
+    }while(memcmp(command,holder, 4) != 0);
+    return 0;
+}
+
+int Batch(){
+    return 0;
 }
 
 char **tokenize(char string[100])
@@ -28,7 +45,7 @@ char **tokenize(char string[100])
     int i = 0;
     while (token != NULL){
     	//token = strtok(token, "\n");
-    	printf("%s", token);
+    	//printf("%s", token);
         tokens[i] = token;
        	token = strtok (NULL," ");
         i = i + 1;
@@ -36,3 +53,17 @@ char **tokenize(char string[100])
     tokens[i] = NULL;
 	return tokens;
 }
+
+int mycd(char **myPar){
+    char *myText = "cd";//check how to use fork here.
+    printf("%s\n", myPar[1]);
+    if(memcmp(myPar[1], myText, 2)==0){
+        if(myPar[2]==NULL)
+            return 1;
+        else
+            chdir(myPar[2]);//check how to wait and exec here
+    }
+    return 0;    
+}
+
+
