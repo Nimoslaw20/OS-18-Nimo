@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+
 char **tokenize(char string[]);
 int notBatch();
 int Batch();
@@ -13,22 +14,54 @@ int main(int argc, char **argv){
     if(argv[1]!=NULL){
     }
     else{
-        notBatch();
+            char *command = NULL;
+	    char **args;
+	    char *holder = "exit\n";
+	    printf("wish> ");
+	    size_t length = 0;
+	    ssize_t read;
+		read = getline(&command, &length, stdin);
+		while(strcmp(command,holder) != 0){
+			args = tokenize(command);
+			mycd(args);
+			printf("wish> ");
+			read = getline(&command, &length, stdin);
+		}
+		printf("Done");
+		/*do{
+		    
+		    
+		    puts(holder);
+		    //puts(strtok(command, " "));
+		    //args = tokenize(command);
+		    //mycd(args);
+	    };*/
+	    return 0;
     }
 }
 
 int notBatch(){
-    char command[100];
+    char *command;
     char **args;
-    char holder[5] = {'e','x','i','t','\0'};
-        do{
-            printf("wish> ");
-            fgets(command,100,stdin);
-            //puts(command);
+    char *holder = "exit\n";
+    printf("wish> ");
+    size_t *length = 0;
+    ssize_t read;
+	read = getline(&command, length, stdin);
+	while(strcmp(command,holder) != 0){
+		printf("%s", command);
+		printf("wish> ");
+		read = getline(&command, length, stdin);
+	}
+	printf("Done");
+        /*do{
+            
+            
+            puts(holder);
             //puts(strtok(command, " "));
-            args = tokenize(command);
-            mycd(args);
-    }while(memcmp(command,holder, 4) != 0);
+            //args = tokenize(command);
+            //mycd(args);
+    };*/
     return 0;
 }
 
